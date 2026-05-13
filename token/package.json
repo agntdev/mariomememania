@@ -1,0 +1,17 @@
+{
+  "name": "mariomememania-token",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MARIO token economy: distribution rules, reward engine, staking, daily login bonus.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node --test --import tsx test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
