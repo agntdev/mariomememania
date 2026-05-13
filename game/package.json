@@ -1,0 +1,20 @@
+{
+  "name": "mariomememania-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Phaser.js core game mechanics for MarioMemeMania: movement, coins, power-ups, level progression.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "phaser": "^3.80.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}
