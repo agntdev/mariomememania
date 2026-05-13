@@ -1,0 +1,56 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "color": {
+    "mario": {
+      "red":    { "$value": "#e52521", "$type": "color" },
+      "blue":   { "$value": "#049cd8", "$type": "color" },
+      "yellow": { "$value": "#fbd000", "$type": "color" },
+      "green":  { "$value": "#43b047", "$type": "color" },
+      "brown":  { "$value": "#8b4513", "$type": "color" },
+      "sky":    { "$value": "#5c94fc", "$type": "color" },
+      "cloud":  { "$value": "#f8f8f8", "$type": "color" },
+      "dark":   { "$value": "#1a1a2e", "$type": "color" },
+      "coin":   { "$value": "#ffce42", "$type": "color" }
+    }
+  },
+  "size": {
+    "pixel":  { "$value": "4px",  "$type": "dimension" },
+    "block":  { "$value": "32px", "$type": "dimension" },
+    "tile":   { "$value": "16px", "$type": "dimension" }
+  },
+  "font": {
+    "family": {
+      "display": { "$value": "Press Start 2P", "$type": "fontFamily" }
+    },
+    "size": {
+      "xs": { "$value": "10px", "$type": "dimension" },
+      "sm": { "$value": "12px", "$type": "dimension" },
+      "md": { "$value": "16px", "$type": "dimension" },
+      "lg": { "$value": "22px", "$type": "dimension" }
+    }
+  },
+  "shadow": {
+    "pixel": {
+      "$value": {
+        "offsetX": "4px",
+        "offsetY": "4px",
+        "blur": "0",
+        "color": "{color.mario.dark}"
+      },
+      "$type": "shadow"
+    }
+  },
+  "component": {
+    "button": {
+      "primary": {
+        "background": { "$value": "{color.mario.red}",   "$type": "color" },
+        "color":      { "$value": "#ffffff",             "$type": "color" },
+        "border":     { "$value": "{color.mario.dark}",  "$type": "color" }
+      }
+    },
+    "card": {
+      "background": { "$value": "{color.mario.cloud}", "$type": "color" },
+      "border":     { "$value": "{color.mario.dark}",  "$type": "color" }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+:root {
+  --mario-red: #e52521;
+  --mario-blue: #049cd8;
+  --mario-yellow: #fbd000;
+  --mario-green: #43b047;
+  --mario-brown: #8b4513;
+  --mario-sky: #5c94fc;
+  --mario-cloud: #f8f8f8;
+  --mario-dark: #1a1a2e;
+  --mario-coin: #ffce42;
+  --pixel: 4px;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--mario-sky);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: var(--mario-yellow);
+}
+
+/* Generic pixel-art "block" border used across components. */
+.pixel-box {
+  background: var(--mario-cloud);
+  color: var(--mario-dark);
+  border: var(--pixel) solid var(--mario-dark);
+  box-shadow:
+    var(--pixel) var(--pixel) 0 var(--mario-dark),
+    inset calc(-1 * var(--pixel)) calc(-1 * var(--pixel)) 0 rgba(0, 0, 0, 0.15),
+    inset var(--pixel) var(--pixel) 0 rgba(255, 255, 255, 0.6);
+  padding: 16px;
+}
+
+.pixel-btn {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 10px 14px;
+  background: var(--mario-red);
+  color: #fff;
+  border: var(--pixel) solid var(--mario-dark);
+  box-shadow: var(--pixel) var(--pixel) 0 var(--mario-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 60ms linear;
+}
+.pixel-btn:hover {
+  transform: translate(-1px, -1px);
+}
+.pixel-btn:active {
+  transform: translate(var(--pixel), var(--pixel));
+  box-shadow: none;
+}
+.pixel-btn[disabled] {
+  background: #888;
+  cursor: not-allowed;
+}
+
+.pixel-input {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 10px;
+  background: #fff;
+  color: var(--mario-dark);
+  border: var(--pixel) solid var(--mario-dark);
+  width: 100%;
+}
