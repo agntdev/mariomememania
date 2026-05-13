@@ -1,0 +1,25 @@
+{
+  "name": "mariomememania-memes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Meme integration system for MarioMemeMania: upload, moderation, IPFS storage, voting, daily challenge, NSFW filter.",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --loader tsx src/server.ts",
+    "test": "node --test --import tsx test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
