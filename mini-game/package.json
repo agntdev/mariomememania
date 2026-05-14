@@ -1,0 +1,11 @@
+{
+  "name": "mariomememania-mini-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Meme Trivia Bonus Round — pure JS engine + tests for the MarioMemeMania mini game.",
+  "main": "mini-game-logic.js",
+  "scripts": {
+    "test": "node --test game-engine-tests.js"
+  }
+}
