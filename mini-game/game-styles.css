@@ -1,0 +1,296 @@
+/* ────────────────────────────────────────────────────────────────────
+ * MarioMemeMania — Mini-Game UI styles.
+ *
+ * Pixel-art Mario theme. Mounts as a full-viewport overlay above the
+ * regular game canvas. Reuses the design tokens declared in
+ * `frontend/src/styles/global.css` (--mario-red, --mario-yellow, …) and
+ * the `.pixel-box` / `.pixel-btn` primitives. Falls back gracefully when
+ * loaded standalone (Storybook, e2e harness, etc.).
+ *
+ * Naming: every selector is `.mg-*` so this file cannot stomp on other
+ * frontend components.
+ * ────────────────────────────────────────────────────────────────────── */
+
+/* ─── tokens (fallback if global.css isn't loaded) ─────────────────── */
+:root {
+  --mg-red: var(--mario-red, #e52521);
+  --mg-blue: var(--mario-blue, #049cd8);
+  --mg-yellow: var(--mario-yellow, #fbd000);
+  --mg-green: var(--mario-green, #43b047);
+  --mg-dark: var(--mario-dark, #1a1a2e);
+  --mg-cloud: var(--mario-cloud, #f8f8f8);
+  --mg-coin: var(--mario-coin, #ffce42);
+  --mg-pixel: var(--pixel, 4px);
+  --mg-overlay-bg: rgba(0, 0, 30, 0.78);
+  --mg-radius: 0; /* pixel-art: no rounding */
+}
+
+/* ─── overlay ──────────────────────────────────────────────────────── */
+.mg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--mg-overlay-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  animation: mg-fade-in 160ms steps(4, end);
+}
+
+@keyframes mg-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes mg-pop {
+  0%   { transform: scale(0.85); }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* ─── card ─────────────────────────────────────────────────────────── */
+.mg-card {
+  width: min(560px, 96vw);
+  max-height: 92vh;
+  overflow: auto;
+  animation: mg-pop 220ms steps(6, end);
+  /* pixel-box already provides the chunky border */
+}
+
+/* ─── header ───────────────────────────────────────────────────────── */
+.mg-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: var(--mg-pixel) dashed var(--mg-dark);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.mg-title {
+  margin: 0;
+  font-size: 14px;
+  color: var(--mg-red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mg-coin {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: var(--mg-coin);
+  border: 2px solid var(--mg-dark);
+  color: var(--mg-dark);
+  font-size: 10px;
+  text-align: center;
+  line-height: 14px;
+  animation: mg-spin 1.2s linear infinite;
+}
+
+@keyframes mg-spin {
+  0%   { transform: scaleX(1); }
+  50%  { transform: scaleX(0.2); }
+  100% { transform: scaleX(1); }
+}
+
+.mg-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.mg-stat {
+  flex: 1 1 70px;
+  display: flex;
+  flex-direction: column;
+  background: var(--mg-yellow);
+  color: var(--mg-dark);
+  border: 2px solid var(--mg-dark);
+  padding: 4px 6px;
+  font-size: 8px;
+  min-width: 64px;
+}
+
+.mg-stat-label {
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.mg-stat-value {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.mg-score {
+  color: var(--mg-red);
+}
+
+.mg-close {
+  flex: 0 0 auto;
+  font-size: 12px;
+  padding: 4px 10px;
+  background: var(--mg-dark);
+}
+
+/* ─── timer bar ────────────────────────────────────────────────────── */
+.mg-timerbar {
+  width: 100%;
+  height: 12px;
+  border: 2px solid var(--mg-dark);
+  background: var(--mg-cloud);
+  margin-bottom: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.mg-timerbar-fill {
+  height: 100%;
+  background: var(--mg-green);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.18) 0,
+    rgba(255, 255, 255, 0.18) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  transition: width 80ms linear;
+}
+
+/* turn the bar red when it nears empty */
+.mg-timerbar-fill[style*="width: 1"][style*="%;"] { background: var(--mg-yellow); }
+.mg-timerbar-fill[style*="width: 0"]              { background: var(--mg-red); }
+
+/* ─── question + options ───────────────────────────────────────────── */
+.mg-prompt {
+  font-size: 12px;
+  margin: 0 0 12px;
+  color: var(--mg-dark);
+  line-height: 1.5;
+}
+
+.mg-thumb {
+  display: block;
+  max-width: 220px;
+  max-height: 140px;
+  margin: 0 auto 12px;
+  image-rendering: pixelated;
+  border: 2px solid var(--mg-dark);
+}
+
+.mg-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+@media (min-width: 480px) {
+  .mg-options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mg-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  background: var(--mg-blue);
+  font-size: 10px;
+  padding: 10px 12px;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.mg-option:hover { background: var(--mg-yellow); color: var(--mg-dark); }
+
+.mg-option-key {
+  flex: 0 0 18px;
+  height: 18px;
+  background: var(--mg-dark);
+  color: var(--mg-yellow);
+  border: 2px solid var(--mg-yellow);
+  text-align: center;
+  line-height: 14px;
+  font-size: 10px;
+}
+
+.mg-option-text { flex: 1 1 auto; }
+
+/* ─── result view ──────────────────────────────────────────────────── */
+.mg-result {
+  text-align: center;
+  border-top: var(--mg-pixel) solid var(--mg-green);
+  padding-top: 12px;
+  animation: mg-pop 320ms steps(8, end);
+}
+
+.mg-result-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.mg-result-stats {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 6px;
+  column-gap: 12px;
+  font-size: 10px;
+  margin: 0 auto 16px;
+  max-width: 320px;
+  color: var(--mg-dark);
+}
+
+.mg-result-stats dt {
+  text-transform: uppercase;
+  opacity: 0.7;
+  text-align: left;
+}
+.mg-result-stats dd {
+  margin: 0;
+  text-align: right;
+  color: var(--mg-red);
+  font-weight: bold;
+}
+
+.mg-result-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mg-action { background: var(--mg-green); }
+.mg-action-alt { background: var(--mg-dark); }
+
+/* ─── responsive ───────────────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .mg-title { font-size: 12px; }
+  .mg-prompt { font-size: 11px; }
+  .mg-stat-value { font-size: 10px; }
+}
+
+/* ─── reduced-motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mg-overlay,
+  .mg-card,
+  .mg-result,
+  .mg-coin {
+    animation: none !important;
+  }
+  .mg-timerbar-fill { transition: none; }
+}
