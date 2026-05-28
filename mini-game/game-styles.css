@@ -1,0 +1,366 @@
+/*
+ * MarioMemeMania — Meme Trivia Bonus Round styles (S2T03).
+ *
+ * Pixel-art Mario theme matching the design tokens from
+ * `frontend/src/styles/global.css` (--mario-red, --mario-yellow, …).
+ * All selectors are namespaced under `.mg-*` so the stylesheet is safe to
+ * load inside any host page without leaking rules.
+ *
+ * Fallbacks inside this file keep the panel rendering even if the host
+ * does not load `global.css` — useful for storybook-style previews.
+ */
+
+.mg-root {
+  --mg-red: var(--mario-red, #e52521);
+  --mg-blue: var(--mario-blue, #049cd8);
+  --mg-yellow: var(--mario-yellow, #fbd000);
+  --mg-green: var(--mario-green, #43b047);
+  --mg-cloud: var(--mario-cloud, #f8f8f8);
+  --mg-dark: var(--mario-dark, #1a1a2e);
+  --mg-sky: var(--mario-sky, #5c94fc);
+  --mg-coin: var(--mario-coin, #ffce42);
+  --mg-pixel: var(--pixel, 4px);
+
+  font-family: "Press Start 2P", "Courier New", monospace;
+  color: var(--mg-dark);
+  background: var(--mg-cloud);
+  border: var(--mg-pixel) solid var(--mg-dark);
+  box-shadow: var(--mg-pixel) var(--mg-pixel) 0 var(--mg-dark);
+  padding: 16px;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  image-rendering: pixelated;
+}
+
+.mg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-bottom: var(--mg-pixel) solid var(--mg-dark);
+  padding-bottom: 8px;
+}
+
+.mg-title {
+  margin: 0;
+  font-size: 12px;
+  color: var(--mg-red);
+  text-shadow: 2px 2px 0 var(--mg-dark);
+  letter-spacing: 1px;
+}
+
+.mg-close {
+  font-family: inherit;
+  font-size: 14px;
+  width: 32px;
+  height: 32px;
+  background: var(--mg-red);
+  color: #fff;
+  border: var(--mg-pixel) solid var(--mg-dark);
+  box-shadow: 2px 2px 0 var(--mg-dark);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+.mg-close:hover { transform: translate(-1px, -1px); }
+.mg-close:active { transform: translate(2px, 2px); box-shadow: none; }
+
+/* ── HUD ──────────────────────────────────────────────────────────────── */
+
+.mg-hud {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.mg-hud-cell {
+  background: var(--mg-sky);
+  color: #fff;
+  border: var(--mg-pixel) solid var(--mg-dark);
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.mg-hud dt {
+  font-size: 8px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+.mg-hud dd {
+  margin: 0;
+  font-size: 14px;
+  color: var(--mg-yellow);
+  text-shadow: 1px 1px 0 var(--mg-dark);
+}
+
+.mg-score { animation: mg-score-pop 220ms steps(4, end); }
+.mg-combo { color: var(--mg-coin); }
+
+@keyframes mg-score-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ── Round-time bar (slow, full round) ────────────────────────────────── */
+
+.mg-round-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 2px solid var(--mg-dark);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.mg-round-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--mg-coin);
+  transition: width 120ms linear;
+}
+
+/* ── Per-question timer (fast, dramatic) ──────────────────────────────── */
+
+.mg-timer {
+  height: 12px;
+  background: rgba(0, 0, 0, 0.18);
+  border: var(--mg-pixel) solid var(--mg-dark);
+  margin-bottom: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.mg-timer-fill {
+  display: block;
+  height: 100%;
+  transition: width 90ms linear;
+}
+.mg-timer-ok .mg-timer-fill     { background: var(--mg-green); }
+.mg-timer-warn .mg-timer-fill   { background: var(--mg-yellow); }
+.mg-timer-danger .mg-timer-fill {
+  background: var(--mg-red);
+  animation: mg-pulse 480ms steps(2, end) infinite;
+}
+
+@keyframes mg-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+/* ── Prompt + options ─────────────────────────────────────────────────── */
+
+.mg-prompt {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+  padding: 12px;
+  background: #fff;
+  border: var(--mg-pixel) solid var(--mg-dark);
+  color: var(--mg-dark);
+}
+
+.mg-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mg-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  background: var(--mg-cloud);
+  color: var(--mg-dark);
+  border: var(--mg-pixel) solid var(--mg-dark);
+  box-shadow: var(--mg-pixel) var(--mg-pixel) 0 var(--mg-dark);
+  cursor: pointer;
+  transition: transform 60ms linear, background-color 120ms linear;
+  min-height: 48px;
+  width: 100%;
+}
+.mg-option:hover:not([disabled]) { transform: translate(-1px, -1px); }
+.mg-option:active:not([disabled]) {
+  transform: translate(var(--mg-pixel), var(--mg-pixel));
+  box-shadow: none;
+}
+.mg-option[disabled] { cursor: default; opacity: 0.95; }
+
+.mg-option-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--mg-red);
+  color: #fff;
+  border: 2px solid var(--mg-dark);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.mg-option-text { flex: 1; word-break: break-word; }
+
+.mg-option-selected { animation: mg-shake 200ms steps(4, end); }
+.mg-option-correct {
+  background: var(--mg-green);
+  color: #fff;
+  animation: mg-bounce 360ms steps(6, end);
+}
+.mg-option-correct .mg-option-key { background: var(--mg-coin); color: var(--mg-dark); }
+.mg-option-wrong {
+  background: var(--mg-red);
+  color: #fff;
+  animation: mg-shake 200ms steps(4, end);
+}
+
+@keyframes mg-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-3px); }
+  75%      { transform: translateX(3px); }
+}
+
+@keyframes mg-bounce {
+  0%   { transform: translateY(0); }
+  35%  { transform: translateY(-6px); }
+  70%  { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.mg-hint {
+  margin: 0;
+  font-size: 9px;
+  opacity: 0.75;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.mg-hint kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--mg-dark);
+  color: var(--mg-yellow);
+  border: 2px solid var(--mg-dark);
+  margin: 0 2px;
+  font-family: inherit;
+  font-size: 9px;
+}
+
+/* ── Result screen ────────────────────────────────────────────────────── */
+
+.mg-result {
+  text-align: center;
+  padding: 16px 12px;
+  border: var(--mg-pixel) solid var(--mg-dark);
+  background: var(--mg-sky);
+  color: #fff;
+  animation: mg-fade-in 240ms steps(4, end);
+}
+.mg-result-win  { background: var(--mg-green); }
+.mg-result-fail { background: var(--mg-red); }
+
+.mg-result-headline {
+  margin: 0 0 8px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 var(--mg-dark);
+  animation: mg-bounce 480ms steps(8, end);
+}
+
+.mg-result-score {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: var(--mg-yellow);
+  text-shadow: 2px 2px 0 var(--mg-dark);
+}
+
+.mg-result-detail {
+  margin: 0 0 8px;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.mg-result-reward {
+  margin: 0 0 12px;
+  font-size: 10px;
+  color: var(--mg-coin);
+  text-shadow: 1px 1px 0 var(--mg-dark);
+  animation: mg-pulse 800ms steps(2, end) infinite;
+}
+
+.mg-result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mg-btn {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 10px 14px;
+  background: var(--mg-cloud);
+  color: var(--mg-dark);
+  border: var(--mg-pixel) solid var(--mg-dark);
+  box-shadow: var(--mg-pixel) var(--mg-pixel) 0 var(--mg-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 60ms linear;
+}
+.mg-btn:hover { transform: translate(-1px, -1px); }
+.mg-btn:active {
+  transform: translate(var(--mg-pixel), var(--mg-pixel));
+  box-shadow: none;
+}
+.mg-btn-primary { background: var(--mg-red); color: #fff; }
+
+@keyframes mg-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (min-width: 560px) {
+  .mg-hud { grid-template-columns: repeat(4, 1fr); }
+  .mg-options { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 380px) {
+  .mg-root { padding: 12px; }
+  .mg-title { font-size: 10px; }
+  .mg-prompt { font-size: 10px; padding: 10px; }
+  .mg-option { font-size: 10px; padding: 8px 10px; min-height: 44px; }
+  .mg-result-score { font-size: 22px; }
+}
+
+/* ── Accessibility: respect reduced-motion ────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-score,
+  .mg-option-selected,
+  .mg-option-correct,
+  .mg-option-wrong,
+  .mg-result,
+  .mg-result-headline,
+  .mg-result-reward,
+  .mg-timer-danger .mg-timer-fill {
+    animation: none !important;
+  }
+  .mg-option,
+  .mg-btn,
+  .mg-close,
+  .mg-timer-fill,
+  .mg-round-bar-fill {
+    transition: none !important;
+  }
+}

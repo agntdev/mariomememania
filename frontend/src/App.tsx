@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import { GameCanvas, Leaderboard, MemeForm, WalletConnect } from "./components";
+import { MiniGame, type MiniGameRewardEvent } from "../../mini-game/MiniGame";
 
 const DEMO_ENTRIES = [
   { rank: 1, player: "luigi64", score: 12450, coins: 88, memes: 12 },
@@ -9,6 +12,17 @@ const DEMO_ENTRIES = [
 ];
 
 export function App() {
+  const [bonusOpen, setBonusOpen] = useState(false);
+  const [lastReward, setLastReward] = useState<MiniGameRewardEvent | null>(null);
+
+  // Host integration seam: forward the engine's reward event to the MARIO
+  // token rewards pipeline. The mini-game stays decoupled from the token
+  // package; the host wires it into `token/src/rewards.ts` →
+  //   gameplayReward({ type: "level_completed", score: evt.score })
+  const handleReward = (evt: MiniGameRewardEvent) => {
+    setLastReward(evt);
+  };
+
   return (
     <main style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
       <header
@@ -35,6 +49,39 @@ export function App() {
       <section style={{ marginBottom: 24 }}>
         <GameCanvas />
       </section>
+
+      <section
+        style={{
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+          flexWrap: "wrap",
+          marginBottom: 24,
+        }}
+      >
+        <button
+          type="button"
+          className="pixel-btn"
+          onClick={() => setBonusOpen((v) => !v)}
+          aria-expanded={bonusOpen}
+          aria-controls="mario-bonus-round"
+        >
+          {bonusOpen ? "Close bonus round" : "Play bonus round"}
+        </button>
+        {lastReward && (
+          <span style={{ fontSize: 10, opacity: 0.9 }}>
+            Last bonus: {lastReward.score} pts · {lastReward.correctCount}/
+            {lastReward.questionCount}
+            {lastReward.perfect ? " · PERFECT" : ""}
+          </span>
+        )}
+      </section>
+
+      {bonusOpen && (
+        <section id="mario-bonus-round" style={{ marginBottom: 24 }}>
+          <MiniGame onReward={handleReward} onClose={() => setBonusOpen(false)} />
+        </section>
+      )}
 
       <section
         style={{
